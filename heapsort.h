@@ -14,6 +14,7 @@
 
 #include "header.h"
 #include <vector>
+#include "priority_queue.h"
 
 // =================================================================
 // Returns the position of the parent of an element.

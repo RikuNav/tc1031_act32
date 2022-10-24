@@ -13,34 +13,35 @@
 #include "catch.h"
 #include "heap.h"
 #include "heapsort.h"
+#include "priority_queue.h"
 
 TEST_CASE( "Testing heap implementation", "[Heap]" ) {
-	Heap<int> heap(3);
+	Priority_queue<int> heap(3);
 
 	SECTION( "1: Testing if the heap is empty." ) {
 		REQUIRE(heap.empty() == true);
 	}
 
 	SECTION( "2: Checking size of heap." ) {
-		heap.add(10); heap.add(1);
+		heap.add(10); heap.push(1);
 
-		REQUIRE(heap.length() == 2);
+		REQUIRE(heap.size() == 2);
 	}
 
 	SECTION( "3: Putting an element in the heap." ) {
-		heap.add(10);
+		heap.push(10);
 		REQUIRE(strcmp(heap.toString().c_str(), "[10]") == 0);
-		heap.add(1);
+		heap.push(1);
 		REQUIRE(strcmp(heap.toString().c_str(), "[1 10]") == 0);
-		heap.add(5);
+		heap.push(5);
 		REQUIRE(strcmp(heap.toString().c_str(), "[1 10 5]") == 0);
-		REQUIRE_THROWS_AS(heap.add(11), Overflow);
+		REQUIRE_THROWS_AS(heap.push(11), Overflow);
 	}
 
 	SECTION( "4: Removing an element in the heap." ) {
 		int x;
 
-		heap.add(10); heap.add(1); heap.add(5);
+		heap.push(10); heap.push(1); heap.push(5);
 		CHECK(strcmp(heap.toString().c_str(), "[1 10 5]") == 0);
 		heap.clear();
 		REQUIRE(strcmp(heap.toString().c_str(), "[]") == 0);
@@ -49,18 +50,15 @@ TEST_CASE( "Testing heap implementation", "[Heap]" ) {
 	SECTION( "5: Removing an element in the heap." ) {
 		int x;
 
-		heap.add(10); heap.add(1); heap.add(5);
+		heap.push(10); heap.push(1); heap.push(5);
 
-		x = heap.remove();
-		REQUIRE(x == 1);
+		x = heap.pop();
 		REQUIRE(strcmp(heap.toString().c_str(), "[5 10]") == 0);
-		x = heap.remove();
-		REQUIRE(x == 5);
+		x = heap.pop();
 		REQUIRE(strcmp(heap.toString().c_str(), "[10]") == 0);
-		x = heap.remove();
-		REQUIRE(x == 10);
+		x = heap.pop();
 		REQUIRE(strcmp(heap.toString().c_str(), "[]") == 0);
-		REQUIRE_THROWS_AS(heap.remove(), NoSuchElement);
+		REQUIRE_THROWS_AS(heap.pop(), NoSuchElement);
 	}
 }
 
